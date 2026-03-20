@@ -334,7 +334,6 @@ Some enhancements that can make **Alumnexus** even better:
 - GitHub: https://github.com/sumantkumar0305
 - LinkedIn: https://www.linkedin.com/in/sumant-kumar-dev/
 
-> Replace these placeholders with your actual details before publishing.
 
 ---
 
