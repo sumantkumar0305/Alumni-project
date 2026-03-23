@@ -1,7 +1,7 @@
 export function backendAPI(){
     const api =
       process.env.REACT_APP_BACKEND_URL ||
-      "http://localhost:8000";
+      "https://alumnexus-backend-dipj.onrender.com";
 
     return api.replace(/\/$/, "");
 }
