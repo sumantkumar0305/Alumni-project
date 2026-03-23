@@ -12,11 +12,14 @@ export const useInternshipForm = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState(initialState);
   const [errors, setErrors] = useState({});
+  const [serverError, setServerError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name]) setErrors((prev) => ({ ...prev, [name]: null }));
+    if (serverError) setServerError(null);
   };
 
   const validateForm = () => {
@@ -30,6 +33,8 @@ export const useInternshipForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setServerError(null);
+
     const formErrors = validateForm();
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
@@ -37,6 +42,7 @@ export const useInternshipForm = () => {
     }
 
     try {
+      setLoading(true);
       const api = backendAPI();
       const response = await axios.post(`${api}/internship/api/internships`, formData, {
         headers: getAuthHeaders(),
@@ -46,14 +52,18 @@ export const useInternshipForm = () => {
         navigate("/internships", { state: { successMessage: "Internship posted successfully!" } });
       }
     } catch (err) {
-      alert(err.response?.data?.error || "Failed to post internship");
+      console.error("postInternship error:", err);
+      setServerError(err.response?.data?.message || err.response?.data?.error || "Failed to post internship. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleCancel = () => {
     setFormData(initialState);
     setErrors({});
+    setServerError(null);
   };
 
-  return { formData, errors, handleChange, handleSubmit, handleCancel };
+  return { formData, errors, serverError, loading, handleChange, handleSubmit, handleCancel };
 };

@@ -25,7 +25,7 @@ app.use(
   })
 );
 
-/* ================= ROUTES ================= */
+/* ================= ROUTES ================= */ 
 app.get("/", (req, res) => {
   res.send("Alumni Management API is running...");
 });

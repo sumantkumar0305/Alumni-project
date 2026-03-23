@@ -21,6 +21,15 @@ export const getJobs = async (req, res) => {
 /* ================= CREATE JOB ================= */
 export const createJob = async (req, res) => {
   try {
+    const { id } = req.user || {};
+
+    if (!id) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized. Please log in.",
+      });
+    }
+
     const {
       title,
       company,
@@ -48,6 +57,7 @@ export const createJob = async (req, res) => {
       skill,
       availablePosts: parseInt(availablePosts),
       description,
+      postedBy: id,       // ← fixes the validation error
     });
 
     await newJob.save();

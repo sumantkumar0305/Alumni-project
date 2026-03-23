@@ -27,7 +27,7 @@ import DonatePage from './Components/Donate/DonatePage';
 function App() {
   return (
     <>
-    <div className="App">
+    <div className="App">  
       <Header/>
       <Routes>
         <Route path="/" element={<MainHeroPage />} />

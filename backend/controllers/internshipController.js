@@ -18,6 +18,15 @@ export const getInternships = async (req, res) => {
 /* ================= CREATE INTERNSHIP ================= */
 export const createInternship = async (req, res) => {
   try {
+    const { id } = req.user || {};
+
+    if (!id) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized. Please log in.",
+      });
+    }
+
     const { title, company, description, skills, location, stipend, duration } = req.body;
 
     if (!title || !company || !description || !skills) {
@@ -35,6 +44,7 @@ export const createInternship = async (req, res) => {
       location,
       stipend,
       duration,
+      postedBy: id,
     });
 
     await newInternship.save();

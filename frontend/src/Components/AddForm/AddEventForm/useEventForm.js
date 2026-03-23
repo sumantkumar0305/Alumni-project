@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-// import { backendAPI, getAuthHeaders } from "../middleware.js";4
 import { backendAPI, getAuthHeaders } from "../../middleware.js";
 
 export const useEventForm = () => {
@@ -9,7 +8,7 @@ export const useEventForm = () => {
   const [formData, setFormData] = useState({
     title: "", description: "", date: "", location: "",
     maxAttendees: "", organization: "", category: "",
-    visibility: "", eventFile: null,
+    visibility: "", eventFile: null, fileError: null,
   });
   const [notification, setNotification] = useState({ message: "", type: "info" });
   const [loading, setLoading] = useState(false);
@@ -26,24 +25,37 @@ export const useEventForm = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (file) => {
-    if (!file) return;
-    setFormData((prev) => ({ ...prev, eventFile: file }));
-    if (file.type.startsWith("image/")) {
-      const reader = new FileReader();
-      reader.onloadend = () => setPreview(reader.result);
-      reader.readAsDataURL(file);
-    } else {
+  // file: the File object (or null if invalid), errorMsg: string or null
+  const handleFileChange = (file, errorMsg) => {
+    if (errorMsg) {
+      // Invalid file — show inline error, clear any previous file
+      setFormData((prev) => ({ ...prev, eventFile: null, fileError: errorMsg }));
       setPreview(null);
+      return;
     }
+
+    if (!file) return;
+
+    // Valid file — clear error, set file and preview
+    const reader = new FileReader();
+    reader.onloadend = () => setPreview(reader.result);
+    reader.readAsDataURL(file);
+    setFormData((prev) => ({ ...prev, eventFile: file, fileError: null }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Block submit if there is a file error or no file selected
+    if (formData.fileError || !formData.eventFile) {
+      setNotification({ message: "Please upload a valid image before submitting.", type: "error" });
+      return;
+    }
+
     setLoading(true);
     const dataToSend = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
-      if (value !== null) dataToSend.append(key, value);
+      if (value !== null && key !== "fileError") dataToSend.append(key, value);
     });
 
     try {
@@ -57,9 +69,9 @@ export const useEventForm = () => {
     }
   };
 
-  return { 
-    formData, setFormData, notification, setNotification, 
-    loading, initialLoading, preview, setPreview, 
-    handleChange, handleFileChange, handleSubmit 
+  return {
+    formData, setFormData, notification, setNotification,
+    loading, initialLoading, preview, setPreview,
+    handleChange, handleFileChange, handleSubmit,
   };
 };
