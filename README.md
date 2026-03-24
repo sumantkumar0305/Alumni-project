@@ -3,6 +3,7 @@
 ### A Full-Stack Alumni Management System built with the MERN Stack
 
 **Alumnexus is a web-based platform designed to connect students with alumni of the same college for mentorship, internships, job referrals, networking, and community engagement.**
+**Live Demo:** https://alumnexus-fro[htntend.onrender.com
 
 ![React](https://img.shields.io/badge/Frontend-React%2018-61DAFB?style=for-the-badge&logo=react)
 ![Node.js](https://img.shields.io/badge/Backend-Node.js-339933?style=for-the-badge&logo=node.js)
@@ -20,7 +21,6 @@
 - [🛠️ Tech Stack](#️-tech-stack)
 - [📁 Project Structure](#-project-structure)
 - [🚀 Getting Started](#-getting-started)
-- [🔐 Environment Variables](#-environment-variables)
 - [🧑‍💼 Role-Based Access](#-role-based-access)
 - [🌟 Why This Project Matters](#-why-this-project-matters)
 - [📸 Future Improvements](#-future-improvements)
@@ -252,17 +252,6 @@ http://localhost:3000
 ```
 
 ---
-
-## 🔐 Environment Variables
-
-Create a `.env` file inside the `backend/` folder:
-
-```env
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_super_secret_key
-CLIENT_URL=http://localhost:3000
-```
 
 > ⚠️ **Important:** Never commit your `.env` file to GitHub.  
 > Add `.env` to your `.gitignore`.
