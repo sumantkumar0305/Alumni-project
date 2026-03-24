@@ -3,6 +3,7 @@
 ### A Full-Stack Alumni Management System built with the MERN Stack
 
 **Alumnexus is a web-based platform designed to connect students with alumni of the same college for mentorship, internships, job referrals, networking, and community engagement.**
+
 **Live Demo:** https://alumnexus-fro[htntend.onrender.com
 
 ![React](https://img.shields.io/badge/Frontend-React%2018-61DAFB?style=for-the-badge&logo=react)
